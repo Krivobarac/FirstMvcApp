@@ -1,13 +1,16 @@
 ﻿@using FirstMvcApp.Models
+@using FirstMvcApp
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<SharedResource> Localizer
 
 <div class="card">
     <div class="card-header">
-        Attendants:
+        @Localizer["Attendants:"]
     </div>
     <div class="card-body">
         @if (Attendance.GetAttendants().Count == 0)
         {
-            <p>Currently there are no attendants... Add them!</p>
+            <p>@Localizer["Currently there are no attendants... Add them!"]</p>
         }
         else
         {

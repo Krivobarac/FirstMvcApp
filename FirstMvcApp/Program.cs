@@ -1,7 +1,8 @@
 using FirstMvcApp.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 using FirstMvcApp.Data;
+using Microsoft.AspNetCore.Mvc.Razor;
+using FirstMvcApp;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +14,14 @@ builder.Services.AddDefaultIdentity<CustomUser>(options => options.SignIn.Requir
 builder.Services.AddDbContext<FirstMvcAppContext>(options => options.UseSqlServer(connectionString));
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddLocalization(opts => opts.ResourcesPath = "Resources");
+builder.Services.AddControllersWithViews().
+    AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix).
+        AddDataAnnotationsLocalization(options =>
+        {
+            options.DataAnnotationLocalizerProvider = (type, factory) =>
+                factory.Create(typeof(SharedResource));
+        });
 
 var app = builder.Build();
 
@@ -32,6 +40,13 @@ app.MapRazorPages();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+
+var supportedCultures = new[] { "en", "de-DE", "sr" };
+var localizationOptions = new RequestLocalizationOptions().SetDefaultCulture(supportedCultures[0])
+    .AddSupportedCultures(supportedCultures)
+    .AddSupportedUICultures(supportedCultures);
+
+app.UseRequestLocalization(localizationOptions);
 
 app.MapControllerRoute(
     name: "attendant",

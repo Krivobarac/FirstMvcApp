@@ -1,17 +1,25 @@
 ﻿using FirstMvcApp.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 
 namespace FirstMvcApp.Controllers
 {
 
     public class HomeController : Controller
     {
+        IStringLocalizer<SharedResource> _localizer;
+
+        public HomeController(IStringLocalizer<SharedResource> localizer)
+        {
+            _localizer = localizer;
+        }
 
         [Authorize]
         public IActionResult Index()
         {
-            Console.WriteLine("Hello from action method.");
+            Console.WriteLine(_localizer["Hello from action method."].Value);
             return View();
         }
 
@@ -44,6 +52,17 @@ namespace FirstMvcApp.Controllers
             }
             return View("Attendant", person);
         }
+
+        public IActionResult SetCulture(string culture, string sourceUrl)
+        {
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+            );
+            return Redirect(sourceUrl);
+        }
+
 
     }
 }
