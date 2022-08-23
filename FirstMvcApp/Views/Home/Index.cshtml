@@ -1,9 +1,11 @@
 ﻿@model FirstMvcApp.Models.Person
-
+@using FirstMvcApp
 @using FirstMvcApp.Models
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<SharedResource> Localizer
 
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = @Localizer["Home Page"];
 }
 
 @section Scripts
@@ -11,11 +13,16 @@
 <script type="text/javascript" src="~/lib/jquery/dist/jquery.js"></script>
 }
 
+<ul class="list-inline">
+    <li class="list-inline-item"> @Html.ActionLink("en", "SetCulture", "Home", new { culture = "en", sourceUrl = @Context.Request.Path }) </li>
+    <li class="list-inline-item"> @Html.ActionLink("de", "SetCulture", "Home", new { culture = "de-DE", sourceUrl = @Context.Request.Path }) </li>
+    <li class="list-inline-item"> @Html.ActionLink("sr", "SetCulture", "Home", new { culture = "sr", sourceUrl = @Context.Request.Path }) </li>
+</ul>
 
 @if (TempData["FirstName"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        You successfully add new attendant: <strong>@TempData["firstName"]</strong>
+        @Localizer["You successfully add new attendant:"] <strong>@TempData["firstName"]</strong>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
@@ -24,7 +31,7 @@
 <div class="col-md-6">
     <div class="card mb-3">
         <div class="card-header">
-            Add attendant:
+            @Localizer["Add attendant:"]
         </div>
         <div class="card-body">
             @using (Html.BeginForm("Index", "Home", FormMethod.Post))

@@ -1,7 +1,10 @@
 ﻿@model FirstMvcApp.Models.Person
+@using FirstMvcApp
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<SharedResource> Localizer
 
 @{
-    ViewBag.Title = "Attendant Details";
+    ViewBag.Title = @Localizer["Attendant Details"];
 }
 
 <div class="card" style="width: 18rem;">

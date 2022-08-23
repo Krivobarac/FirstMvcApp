@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using FirstMvcApp
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<SharedResource> Localizer
+
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -11,7 +15,7 @@
     <header class="container">
         <div class="row text-center">
             <div class="col">
-                <h1>Check-In System</h1>
+                <h1>@Localizer["Check-In System"]</h1>
             </div>
         </div>
         <div class="row">
@@ -37,7 +41,7 @@
     <footer class="container">
         <div class="row text-center">
             <div class="col">
-                <p>All right reserved. <a href="http://www.link-group.eu/">Link Group</a> @DateTime.Now.Year</p>
+                <p>@Localizer["All right reserved."] <a href="http://www.link-group.eu/">Link Group</a> @DateTime.Now.Year</p>
             </div>
         </div>
     </footer>
