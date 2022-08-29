@@ -23,7 +23,19 @@ builder.Services.AddControllersWithViews().
                 factory.Create(typeof(SharedResource));
         });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(
+        name: "MyAllowedOrigins",
+        builder => builder.WithOrigins("http://localhost:4200")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+    );
+});
+
 var app = builder.Build();
+
+app.UseCors("MyAllowedOrigins");
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
