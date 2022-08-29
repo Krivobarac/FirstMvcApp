@@ -18,8 +18,13 @@
             PeopleContext context = new PeopleContext();
             IEnumerable<Person> people = from p in context.People where p.IsDeleted != 1 select p;
             return people.ToList();
+        }
 
-
+        public static Person GetAttendant(int id)
+        {
+            PeopleContext context = new PeopleContext();
+            Person person = context.People.Find(id)!;
+            return person;
         }
 
 

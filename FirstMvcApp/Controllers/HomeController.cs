@@ -25,7 +25,7 @@ namespace FirstMvcApp.Controllers
 
 
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         public IActionResult Index(Person person)
         {
 

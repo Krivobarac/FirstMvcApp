@@ -1,1 +1,7 @@
-<p>attendants-list works!</p>
+<table>
+    <tr *ngFor="let person of service.people">
+      <td>{{person.firstName}}</td>
+      <td>{{person.lastName}}</td>
+      <td>{{person.dateOfBirth}}</td>
+    </tr>
+  </table>
